@@ -34,7 +34,11 @@
     <header class="page-header">
         <div class="container">
             <h1>All Surf Properties</h1>
-            <p>Browse our complete catalog of premium coastal real estate.</p>
+                        <p>Browse our complete catalog of premium coastal real estate.</p>
+            <div class="search-bar" style="max-width: 600px; margin: 30px auto 0; position: relative; z-index: 2;">
+                <input type="text" id="searchInput" placeholder="Search by location (e.g. Costa Rica, Hawaii)..." style="width: 100%; padding: 15px 150px 15px 25px; border-radius: 50px; border: 1px solid var(--border); font-size: 1rem;">
+                <button id="searchBtn" class="btn-search" style="position: absolute; right: 5px; top: 5px; bottom: 5px;">Search</button>
+            </div>
         </div>
     </header>
 
@@ -43,7 +47,7 @@
         <div class="container">
             <div class="property-grid">
                 <!-- CMS_PROPERTIES_START -->
-                <div class="property-card" onclick="window.location.href='listings/mission-beach-estate/index.html';" style="cursor: pointer;">
+                <div class="property-card" data-country="United States" onclick="window.location.href='listings/mission-beach-estate/index.html';" style="cursor: pointer;">
                         <div class="property-image">
                             <img src="https://bookingenginecdn.hostaway.com/listing/39200-104834-MdIyHvVVvAGqvtPrErX8OGn0Moo5UnvkMTUOphfMXQA-62474c9f8f12a?width=1920&quality=70&format=webp&v=2" alt="Mission Beach Oceanfront Estate">
                             <span class="badge">FOR SALE</span>
@@ -51,7 +55,7 @@
                     <div class="property-details">
                         <div class="property-price">$7,500,000</div>
                         <h3 class="property-title">Mission Beach Oceanfront Estate</h3>
-                        <div class="property-location"><i class="fas fa-map-marker-alt"></i> San Diego, CA</div>
+                        <div class="property-location"><i class="fas fa-map-marker-alt"></i> San Diego, California</div>
                         <div class="property-meta">
                             <span><i class="fas fa-bed"></i> 3 Beds</span>
                             <span><i class="fas fa-bath"></i> 2 Baths</span>
@@ -59,7 +63,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="property-card" onclick="window.location.href='listings/kua-nalu-poipu/index.html';" style="cursor: pointer;">
+                <div class="property-card" data-country="United States" onclick="window.location.href='listings/kua-nalu-poipu/index.html';" style="cursor: pointer;">
                         <div class="property-image">
                             <img src="https://bookingenginecdn.hostaway.com/listing/39200-104833-PEI6QJpmSV62dYYgE--h-i7BMz5Hg3fdgY0o1nEOYZfo-6a274c1e17eb5?width=1920&quality=70&format=webp&v=2" alt="Kua Nalu Poipu Beach - Best Beach House">
                             <span class="badge">FOR SALE</span>
@@ -67,7 +71,7 @@
                     <div class="property-details">
                         <div class="property-price">$8,500,000</div>
                         <h3 class="property-title">Kua Nalu Poipu Beach - Best Beach House</h3>
-                        <div class="property-location"><i class="fas fa-map-marker-alt"></i> Koloa, HI</div>
+                        <div class="property-location"><i class="fas fa-map-marker-alt"></i> Koloa, Hawaii</div>
                         <div class="property-meta">
                             <span><i class="fas fa-bed"></i> 3 Beds</span>
                             <span><i class="fas fa-bath"></i> 3 Baths</span>
@@ -75,7 +79,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="property-card" onclick="window.location.href='listings/poipu-beach-4br-pool/index.html';" style="cursor: pointer;">
+                <div class="property-card" data-country="United States" onclick="window.location.href='listings/poipu-beach-4br-pool/index.html';" style="cursor: pointer;">
                         <div class="property-image">
                             <img src="https://bookingenginecdn.hostaway.com/listing/39200-105700-SZL0IYLkGBp5ZPoXxxdwxuXu--g49BZ9dC5iImr8ohNw-62506c3c6e8bd?width=1920&quality=70&format=webp&v=2" alt="Walk to Poipu Beach • 4BR + Bonus • Pool">
                             <span class="badge">FOR SALE</span>
@@ -83,7 +87,7 @@
                     <div class="property-details">
                         <div class="property-price">$6,200,000</div>
                         <h3 class="property-title">Walk to Poipu Beach • 4BR + Bonus • Pool</h3>
-                        <div class="property-location"><i class="fas fa-map-marker-alt"></i> Poipu, Koloa, HI</div>
+                        <div class="property-location"><i class="fas fa-map-marker-alt"></i> Poipu, Hawaii</div>
                         <div class="property-meta">
                             <span><i class="fas fa-bed"></i> 4+ Beds</span>
                             <span><i class="fas fa-bath"></i> 3 Baths</span>
@@ -91,7 +95,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="property-card" onclick="window.location.href='listings/sayulita-lot/index.html';" style="cursor: pointer;">
+                <div class="property-card" data-country="Mexico" onclick="window.location.href='listings/sayulita-lot/index.html';" style="cursor: pointer;">
                         <div class="property-image">
                             <img src="Pictures/IMG_8732.jpeg" alt="Ocean View Lot - Surf Break Access">
                             <span class="badge">FOR SALE</span>
@@ -107,7 +111,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="property-card" onclick="window.location.href='listings/eco-home-costa-rica/index.html';" style="cursor: pointer;">
+                <div class="property-card" data-country="Costa Rica" onclick="window.location.href='listings/eco-home-costa-rica/index.html';" style="cursor: pointer;">
                         <div class="property-image">
                             <img src="Pictures/IMG_0657.jpeg" alt="Modern Eco-Home in the Jungle">
                             <span class="badge">FOR SALE</span>
@@ -123,7 +127,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="property-card" onclick="window.location.href='listings/popoyo-villa/index.html';" style="cursor: pointer;">
+                <div class="property-card" data-country="Nicaragua" onclick="window.location.href='listings/popoyo-villa/index.html';" style="cursor: pointer;">
                         <div class="property-image">
                             <img src="Pictures/IMG_8693.jpeg" alt="Beachfront Villa with Surf Views">
                             <span class="badge">FOR SALE</span>
@@ -189,6 +193,8 @@
     <script src="js/app.js"></script>
 </body>
 </html>
+
+
 
 
 

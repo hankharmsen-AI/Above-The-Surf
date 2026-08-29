@@ -2,7 +2,7 @@
 title: "Kua Nalu Poipu Beach - Best Beach House"
 slug: "kua-nalu-poipu"
 price: "$8,500,000"
-location: "Koloa, HI"
+location: "Koloa, Hawaii"
 country: "United States"
 beds: "3"
 baths: "3"
@@ -16,3 +16,4 @@ featured: true
 ---
 
 A classic, family-friendly Hawaiian beach house situated in an unbeatable oceanfront location across from Brennecke's Beach and adjacent to Poipu Beach Park. Guests enjoy sunrise views, instant beach access for boogie boarding and swimming, and walking distance to local dining, delis, and surf rental shops.
+

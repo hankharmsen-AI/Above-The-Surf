@@ -18,3 +18,4 @@ featured: true
 Seamlessly blending indoor and outdoor living, this modern architectural masterpiece is nestled high in the jungle canopy of Santa Teresa. 
 
 The home is entirely off-grid capable, featuring a state-of-the-art solar array, rainwater catchment, and passive cooling design. Enjoy morning coffee on the expansive teak yoga deck listening to the howler monkeys, followed by a short 5-minute walk down a private path to the pristine white sands and world-class waves of Playa Hermosa.
+

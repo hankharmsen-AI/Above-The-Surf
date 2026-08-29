@@ -2,7 +2,7 @@
 title: "Mission Beach Oceanfront Estate"
 slug: "mission-beach-estate"
 price: "$7,500,000"
-location: "San Diego, CA"
+location: "San Diego, California"
 country: "United States"
 beds: "3"
 baths: "2"
@@ -18,3 +18,4 @@ featured: true
 An incredible once-in-a-lifetime opportunity to own a premier oceanfront estate right on the sand in South Mission Beach. Located just steps from the iconic jetty and the world-famous Belmont Park, this sprawling property offers panoramic, unobstructed views of the Pacific Ocean.
 
 Featuring an expansive ground-level private patio that spills directly onto the boardwalk, it's the ultimate setup for beachside entertaining. The property boasts a multi-unit layout perfect for a massive family compound or luxury rental income, complete with a private Mother-in-Law suite, multiple kitchens, and unparalleled access to the best surf breaks, volleyball courts, and coastal lifestyle San Diego has to offer.
+

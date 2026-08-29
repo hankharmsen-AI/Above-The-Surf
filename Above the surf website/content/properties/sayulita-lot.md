@@ -18,3 +18,4 @@ featured: true
 A rare opportunity to build your dream surf sanctuary. This elevated half-acre parcel offers unobstructed panoramic views of the Pacific Ocean and the lush Nayarit coastline.
 
 Located in a quiet, gated community just south of Sayulita's bustling town center, the property boasts a private foot trail leading directly down to a secluded, consistent surf break. With water and electricity already available at the property line, this lot is completely ready for a custom build.
+

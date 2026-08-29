@@ -18,3 +18,4 @@ featured: true
 Experience the ultimate surfer's lifestyle in this sprawling luxury villa located directly on the sand in Popoyo. Offering front-row seats to one of Central America's most consistent and famous A-frame reef breaks, you can check the surf without ever leaving your pillow.
 
 The property features four spacious en-suite bedrooms, a massive open-concept chef's kitchen, and a custom beachfront infinity pool. Designed for both personal enjoyment and high-yield rental potential, the villa comes fully turnkey with a dedicated local staff and property management already in place.
+

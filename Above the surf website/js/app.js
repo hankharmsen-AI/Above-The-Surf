@@ -34,67 +34,79 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+    // --- SEARCH LOGIC ---
+    const searchInput = document.getElementById('searchInput');
+    const searchBtn = document.getElementById('searchBtn');
 
-    // Theme Toggle Logic
-    const toggleBtn = document.createElement('button');
-    toggleBtn.innerHTML = '<i class="fas fa-sun"></i> Light Theme';
-    toggleBtn.style.position = 'fixed';
-    toggleBtn.style.bottom = '20px';
-    toggleBtn.style.left = '20px';
-    toggleBtn.style.zIndex = '9999';
-    toggleBtn.style.padding = '12px 20px';
-    toggleBtn.style.background = '#0ea5e9';
-    toggleBtn.style.color = '#fff';
-    toggleBtn.style.border = 'none';
-    toggleBtn.style.borderRadius = '50px';
-    toggleBtn.style.cursor = 'pointer';
-    toggleBtn.style.boxShadow = '0 4px 10px rgba(0,0,0,0.3)';
-    toggleBtn.style.fontFamily = "'Montserrat', sans-serif";
-    toggleBtn.style.fontWeight = '600';
-    toggleBtn.style.display = 'flex';
-    toggleBtn.style.alignItems = 'center';
-    toggleBtn.style.gap = '8px';
+    const executeSearch = () => {
+        if (!searchInput) return;
+        const query = searchInput.value.trim();
+        if (query) {
+            window.location.href = 'properties.html?q=' + encodeURIComponent(query);
+        }
+    };
 
-    document.body.appendChild(toggleBtn);
+    if (searchBtn) searchBtn.addEventListener('click', executeSearch);
+    if (searchInput) {
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') executeSearch();
+        });
+    }
 
-    const styleSheet = document.querySelector('link[href*="style.css"]') || document.querySelector('link[href*="style-light.css"]');
-    let isLight = localStorage.getItem('theme') === 'light';
-
-    function updateTheme() {
-        if (!styleSheet) return;
-        if (isLight) {
-            styleSheet.setAttribute('href', styleSheet.getAttribute('href').replace('style.css', 'style-light.css'));
-            toggleBtn.innerHTML = '<i class="fas fa-moon"></i> Dark Theme';
-            toggleBtn.style.background = '#1e293b';
-        } else {
-            styleSheet.setAttribute('href', styleSheet.getAttribute('href').replace('style-light.css', 'style.css'));
-            toggleBtn.innerHTML = '<i class="fas fa-sun"></i> Light Theme';
-            toggleBtn.style.background = '#0ea5e9';
+    // If we are on properties page, filter the cards
+    const urlParams = new URLSearchParams(window.location.search);
+    const searchQuery = urlParams.get('q');
+    
+    if (searchQuery && window.location.pathname.includes('properties.html')) {
+        const query = searchQuery.toLowerCase();
+        const propertyCards = document.querySelectorAll('.property-card');
+        
+        // Update header if exists
+        const pageHeader = document.querySelector('.page-header h1');
+        if (pageHeader) {
+            pageHeader.textContent = 'Search Results for "' + searchQuery + '"';
+        }
+        
+        let matchCount = 0;
+        propertyCards.forEach(card => {
+            const title = card.querySelector('.property-title').textContent.toLowerCase();
+            const location = card.querySelector('.property-location').textContent.toLowerCase();
+            const country = (card.getAttribute('data-country') || '').toLowerCase();
+            
+            if (title.includes(query) || location.includes(query) || country.includes(query) || (query === "us" && country === "united states") || (query === "usa" && country === "united states") || (query === "america" && country === "united states")) {
+                card.style.display = 'block';
+                matchCount++;
+            } else {
+                card.style.display = 'none';
+            }
+        });
+        
+        if (matchCount === 0) {
+            const grid = document.querySelector('.property-grid');
+            if (grid) {
+                const noResults = document.createElement('p');
+                noResults.textContent = 'No properties found matching "' + searchQuery + '".';
+                noResults.style.gridColumn = '1 / -1';
+                noResults.style.textAlign = 'center';
+                noResults.style.padding = '40px';
+                grid.appendChild(noResults);
+            }
         }
     }
 
-    // Initialize
-    if (isLight) updateTheme();
-
-    toggleBtn.addEventListener('click', () => {
-        isLight = !isLight;
-        localStorage.setItem('theme', isLight ? 'light' : 'dark');
-        updateTheme();
-    });
 });
 
-
-                    // 6-Second Interval Crossfade Logic
+// 6-Second Interval Crossfade Logic
     const video1 = document.getElementById('bg-video-1');
     const video2 = document.getElementById('bg-video-2');
     
     if (video1 && video2) {
         const playlist = [
-            'Surf videos/7193316-hd_1920_1080_24fps.mp4',
-            'Surf videos/16243013_3840_2160_60fps.mp4',
-            'Surf videos/11901578_1920_1080_30fps.mp4',
-            'Surf videos/6981356-hd_1920_1080_25fps.mp4',
-            'Surf videos/13007362_1280_720_25fps.mp4'
+            'Surf videos/7193316_compressed.mp4',
+            'Surf videos/6981356_compressed.mp4',
+            'Surf videos/13007362_1280_720_25fps.mp4',
+            'Surf videos/11901578_compressed.mp4',
+            'Surf videos/16243013_compressed.mp4'
         ];
         
         let currentIndex = 0;
@@ -139,4 +151,12 @@ document.addEventListener('DOMContentLoaded', () => {
             
         }, 6000); // Trigger transition every 6 seconds exactly
     }
+
+
+
+
+
+
+
+
 

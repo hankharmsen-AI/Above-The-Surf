@@ -2,7 +2,7 @@
 title: "Walk to Poipu Beach • 4BR + Bonus • Pool"
 slug: "poipu-beach-4br-pool"
 price: "$6,200,000"
-location: "Poipu, Koloa, HI"
+location: "Poipu, Hawaii"
 country: "United States"
 beds: "4+"
 baths: "3"
@@ -16,3 +16,4 @@ featured: true
 ---
 
 Spacious island vacation home located in the heart of Poipu, ideal for multi-generational families or groups. Features access to a swimming pool and hot tub, plenty of indoor/outdoor living spaces, and close proximity to top Kauai beaches.
+

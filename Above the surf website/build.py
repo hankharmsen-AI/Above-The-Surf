@@ -6,7 +6,7 @@ def parse_markdown(filepath):
         content = f.read()
     
     # Parse frontmatter
-    match = re.match(r'^---\n(.*?)\n---\n(.*)', content, re.DOTALL)
+    match = re.match(r'^---\r?\n(.*?)\r?\n---\r?\n(.*)', content, re.DOTALL)
     if not match:
         return None
     
@@ -17,18 +17,20 @@ def parse_markdown(filepath):
             key, val = line.split(':', 1)
             key = key.strip()
             val = val.strip().strip('"').strip("'")
-            # Unescape $ if needed, though usually standard
             data[key] = val
     data['body'] = body.strip()
     return data
 
-def build_property_card(prop, is_us_only=False):
-    if is_us_only and prop.get('country') != 'United States':
-        return ""
+def build_property_card(prop, is_subdir=False):
+    # Adjust paths if we are inside a destination folder (e.g. destinations/mexico.html)
+    link_prefix = "../listings/" if is_subdir else "listings/"
+    img_src = prop.get('image', '')
+    if is_subdir and not img_src.startswith("http"):
+        img_src = "../" + img_src
         
-    return f"""                <div class="property-card" onclick="window.location.href='listings/{prop.get('slug')}/index.html';" style="cursor: pointer;">
+    return f"""                <div class="property-card" data-country="{prop.get('country')}" onclick="window.location.href='{link_prefix}{prop.get('slug')}/index.html';" style="cursor: pointer;">
                         <div class="property-image">
-                            <img src="{prop.get('image')}" alt="{prop.get('title')}">
+                            <img src="{img_src}" alt="{prop.get('title')}">
                             <span class="badge">{prop.get('badge')}</span>
                         </div>
                     <div class="property-details">
@@ -44,30 +46,7 @@ def build_property_card(prop, is_us_only=False):
                 </div>
 """
 
-def main():
-    props_dir = "content/properties"
-    properties = []
-    
-    # Load all properties
-    for filename in os.listdir(props_dir):
-        if filename.endswith(".md"):
-            prop = parse_markdown(os.path.join(props_dir, filename))
-            if prop:
-                properties.append(prop)
-                
-    # We want to preserve a specific order ideally, but for now we'll sort them
-    # Let's put United States first, then others. Or sort by featured.
-    # We'll just sort them so Mission Beach and Hawaii are first to match current site.
-    order = ["mission-beach-estate", "kua-nalu-poipu", "poipu-beach-4br-pool", "surfsong-unit1-orchid", "sayulita-lot", "eco-home-costa-rica", "popoyo-villa"]
-    properties.sort(key=lambda x: order.index(x['slug']) if x['slug'] in order else 999)
-
-    # 1. Update properties.html
-    update_file("templates/properties.template.html", "properties.html", properties)
-    
-    # 2. Update index.html
-    update_file("templates/index.template.html", "index.html", properties)
-
-def update_file(template_path, output_path, properties):
+def update_file(template_path, output_path, properties_to_render, is_subdir=False):
     if not os.path.exists(template_path):
         return
         
@@ -75,16 +54,39 @@ def update_file(template_path, output_path, properties):
         html = f.read()
         
     # Generate grids
-    all_grid = "".join([build_property_card(p) for p in properties])
+    grid_html = "".join([build_property_card(p, is_subdir) for p in properties_to_render])
     
     html = re.sub(r'<!-- CMS_PROPERTIES_START -->.*?<!-- CMS_PROPERTIES_END -->', 
-                  f'<!-- CMS_PROPERTIES_START -->\n{all_grid}<!-- CMS_PROPERTIES_END -->', 
+                  f'<!-- CMS_PROPERTIES_START -->\n{grid_html}<!-- CMS_PROPERTIES_END -->', 
                   html, flags=re.DOTALL)
                   
     with open(output_path, 'w', encoding='latin1') as f:
         f.write(html)
         
     print(f"Updated {output_path}")
+
+def main():
+    props_dir = "content/properties"
+    properties = []
+    
+    for filename in os.listdir(props_dir):
+        if filename.endswith(".md"):
+            prop = parse_markdown(os.path.join(props_dir, filename))
+            if prop:
+                properties.append(prop)
+                
+    order = ["mission-beach-estate", "kua-nalu-poipu", "poipu-beach-4br-pool", "surfsong-unit1-orchid", "sayulita-lot", "eco-home-costa-rica", "popoyo-villa"]
+    properties.sort(key=lambda x: order.index(x['slug']) if x['slug'] in order else 999)
+
+    # Main pages (shows everything)
+    update_file("templates/properties.template.html", "properties.html", properties)
+    update_file("templates/index.template.html", "index.html", properties)
+    
+    # Destination pages (filtered by country)
+    update_file("templates/united-states.template.html", "destinations/united-states.html", [p for p in properties if p.get('country') == 'United States'], is_subdir=True)
+    update_file("templates/mexico.template.html", "destinations/mexico.html", [p for p in properties if p.get('country') == 'Mexico'], is_subdir=True)
+    update_file("templates/costa-rica.template.html", "destinations/costa-rica.html", [p for p in properties if p.get('country') == 'Costa Rica'], is_subdir=True)
+    update_file("templates/nicaragua.template.html", "destinations/nicaragua.html", [p for p in properties if p.get('country') == 'Nicaragua'], is_subdir=True)
 
 if __name__ == "__main__":
     main()
