@@ -119,6 +119,8 @@ document.addEventListener('DOMContentLoaded', () => {
         video2.loop = true;
         
         // Preload the second video
+        video1.src = playlist[0];
+        video1.play().catch(e=>console.log(e));
         video2.src = playlist[1];
         video2.load();
         
@@ -151,6 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
         }, 6000); // Trigger transition every 6 seconds exactly
     }
+
 
 
 

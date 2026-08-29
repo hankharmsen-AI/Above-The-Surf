@@ -99,14 +99,26 @@ def main():
         with open('templates/listing.template.html', 'r', encoding='latin1') as f:
             template = f.read()
             
-        for key in ['title', 'location', 'price', 'badge', 'beds', 'baths', 'size', 'body', 'image']:
+        for key in ['title', 'location', 'price', 'badge', 'beds', 'baths', 'size', 'body', 'image', 'amenities']:
             val = p.get(key, '')
             # If image is an absolute URL (like hostaway), we don't prepend ../../
             if key == 'image' and val.startswith('http'):
                 # Hack to override the inline CSS if it's an absolute url
                 template = template.replace(f"url('../../{{{{image}}}}')", f"url('{val}')")
             else:
-                template = template.replace(f"{{{{{key}}}}}", str(val))
+                if key == 'amenities' and val:
+                    items = [x.strip() for x in str(val).split(',')]
+                    li_html = "".join([f'<li><i class="fas fa-check" style="color: var(--primary); margin-right: 8px;"></i> {x}</li>' for x in items])
+                    template = template.replace("{{amenities}}", li_html)
+                elif key == 'body' and val:
+                    val_str = str(val)
+                    if '<p>' not in val_str:
+                        paragraphs = "".join([f'<p>{p.strip()}</p>' for p in val_str.split('\n\n') if p.strip()])
+                        template = template.replace("{{body}}", paragraphs)
+                    else:
+                        template = template.replace("{{body}}", val_str)
+                else:
+                    template = template.replace(f"{{{{{key}}}}}", str(val))
                 
         with open(os.path.join(folder, 'index.html'), 'w', encoding='utf-8') as f:
             f.write(template)
