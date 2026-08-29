@@ -8,17 +8,15 @@ def parse_markdown(filepath):
         with open(filepath, 'r', encoding='latin1') as f:
             content = f.read()
             
-    # Safely extract frontmatter and body
     parts = content.split('---')
     if len(parts) < 3:
-        return {} # Fallback so it doesn't crash
+        return {}
         
     frontmatter = parts[1]
     body = '---'.join(parts[2:]).strip()
     
     data = {'body': body}
     
-    # Very robust basic YAML parser that won't crash
     for line in frontmatter.split('\n'):
         if ':' in line:
             key, val = line.split(':', 1)
@@ -57,8 +55,12 @@ def update_file(template_path, output_path, properties_to_render, is_subdir=Fals
     if not os.path.exists(template_path):
         return
         
-    with open(template_path, 'r', encoding='utf-8') as f:
-        html = f.read()
+    try:
+        with open(template_path, 'r', encoding='utf-8') as f:
+            html = f.read()
+    except UnicodeDecodeError:
+        with open(template_path, 'r', encoding='latin1') as f:
+            html = f.read()
         
     grid_html = "".join([build_property_card(p, is_subdir) for p in properties_to_render if p])
     
@@ -79,11 +81,9 @@ def main():
                 if prop and prop.get('slug'):
                     properties.append(prop)
                     
-    # Generate main pages
     update_file('templates/properties.template.html', 'properties.html', properties)
     update_file('templates/index.template.html', 'index.html', properties)
     
-    # Generate destination pages
     dest_dir = 'destinations'
     if os.path.exists(dest_dir):
         destinations = {
@@ -98,11 +98,14 @@ def main():
             output = f'destinations/{slug}.html'
             update_file(template, output, filtered, is_subdir=True)
             
-    # Generate individual listing pages
     listing_template = 'templates/listing.template.html'
     if os.path.exists(listing_template):
-        with open(listing_template, 'r', encoding='utf-8') as f:
-            base_template = f.read()
+        try:
+            with open(listing_template, 'r', encoding='utf-8') as f:
+                base_template = f.read()
+        except UnicodeDecodeError:
+            with open(listing_template, 'r', encoding='latin1') as f:
+                base_template = f.read()
             
         os.makedirs('listings', exist_ok=True)
         
