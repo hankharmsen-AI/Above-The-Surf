@@ -2,13 +2,13 @@ backend:
   name: git-gateway
   branch: main
 
-media_folder: "uploads"
-public_folder: "/uploads"
+media_folder: "Above the surf website/Pictures"
+public_folder: "/Pictures"
 
 collections:
   - name: "properties"
     label: "Properties"
-    folder: "content/properties"
+    folder: "Above the surf website/content/properties"
     create: true
     slug: "{{slug}}"
     fields:
@@ -66,3 +66,4 @@ collections:
         name: "featured"
         widget: "boolean"
         default: true
+
