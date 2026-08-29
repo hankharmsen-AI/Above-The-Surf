@@ -88,6 +88,32 @@ def main():
     update_file("templates/costa-rica.template.html", "destinations/costa-rica.html", [p for p in properties if p.get('country') == 'Costa Rica'], is_subdir=True)
     update_file("templates/nicaragua.template.html", "destinations/nicaragua.html", [p for p in properties if p.get('country') == 'Nicaragua'], is_subdir=True)
 
+    # Property Detail Pages
+    for p in properties:
+        slug = p.get('slug')
+        if not slug: continue
+        
+        folder = os.path.join('listings', slug)
+        os.makedirs(folder, exist_ok=True)
+        
+        with open('templates/listing.template.html', 'r', encoding='latin1') as f:
+            template = f.read()
+            
+        for key in ['title', 'location', 'price', 'badge', 'beds', 'baths', 'size', 'body', 'image']:
+            val = p.get(key, '')
+            # If image is an absolute URL (like hostaway), we don't prepend ../../
+            if key == 'image' and val.startswith('http'):
+                # Hack to override the inline CSS if it's an absolute url
+                template = template.replace(f"url('../../{{{{image}}}}')", f"url('{val}')")
+            else:
+                template = template.replace(f"{{{{{key}}}}}", str(val))
+                
+        with open(os.path.join(folder, 'index.html'), 'w', encoding='utf-8') as f:
+            f.write(template)
+            
+    print("Generated property pages")
+
 if __name__ == "__main__":
     main()
+
 
