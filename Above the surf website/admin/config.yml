@@ -1,0 +1,29 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "uploads"
+public_folder: "/uploads"
+
+collections:
+  - name: "properties"
+    label: "Properties"
+    folder: "content/properties"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Property Name", name: "title", widget: "string" }
+      - { label: "Slug (URL-friendly name, no spaces)", name: "slug", widget: "string", hint: "e.g. mission-beach-estate" }
+      - { label: "Price", name: "price", widget: "string", hint: "e.g. $7,500,000" }
+      - { label: "Location", name: "location", widget: "string", hint: "e.g. San Diego, CA" }
+      - { label: "Country", name: "country", widget: "select", options: ["United States", "Mexico", "Costa Rica", "Nicaragua"] }
+      - { label: "Bedrooms", name: "beds", widget: "string", hint: "e.g. 3 or Studio" }
+      - { label: "Bathrooms", name: "baths", widget: "string", hint: "e.g. 2" }
+      - { label: "Size / Sleeps", name: "size", widget: "string", hint: "e.g. Sleeps 8 or 2,100 sq ft" }
+      - { label: "Badge", name: "badge", widget: "select", options: ["FOR SALE", "COMING SOON", "UNDER CONTRACT", "SOLD"], default: "FOR SALE" }
+      - { label: "Featured Image", name: "image", widget: "image", hint: "Upload a photo or paste an image URL" }
+      - { label: "Gallery Images", name: "gallery", widget: "list", required: false, field: { label: "Image", name: "image", widget: "image" } }
+      - { label: "Short Description", name: "excerpt", widget: "text", hint: "1-2 sentence teaser for the property card" }
+      - { label: "Full Description", name: "body", widget: "markdown" }
+      - { label: "Amenities (comma separated)", name: "amenities", widget: "string", hint: "e.g. Pool, Ocean Views, Full Kitchen, Wi-Fi" }
+      - { label: "Featured on Homepage?", name: "featured", widget: "boolean", default: true }
