@@ -1,7 +1,7 @@
 ---
 title: Kua Nalu Poipu Beach - Best Beach House
 slug: kua-nalu-poipu
-price: $9,000,000
+price: $8,000,000
 location: Koloa, Hawaii
 country: United States
 beds: "4"
