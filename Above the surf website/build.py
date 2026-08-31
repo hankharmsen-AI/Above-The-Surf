@@ -1,5 +1,6 @@
 import os
 import re
+
 def parse_markdown(filepath):
     try:
         with open(filepath, 'r', encoding='utf-8') as f:
@@ -26,6 +27,7 @@ def parse_markdown(filepath):
                 data[key] = val
                 
     return data
+
 def build_property_card(prop, is_subdir=False):
     if not prop:
         return ""
@@ -51,6 +53,7 @@ def build_property_card(prop, is_subdir=False):
                     </div>
                 </div>
 '''
+
 def update_file(template_path, output_path, properties_to_render, is_subdir=False):
     if not os.path.exists(template_path):
         return
@@ -70,6 +73,7 @@ def update_file(template_path, output_path, properties_to_render, is_subdir=Fals
                   
     with open(output_path, 'w', encoding='utf-8') as f:
         f.write(html)
+
 def main():
     props_dir = 'content/properties'
     properties = []
@@ -120,7 +124,12 @@ def main():
             keys = ['title', 'location', 'price', 'badge', 'beds', 'baths', 'size', 'body', 'image', 'amenities']
             for key in keys:
                 val = prop.get(key, '')
-                if key == 'amenities' and val:
+                if key == 'image':
+                    img_src = str(val)
+                    if not img_src.startswith('http'):
+                        img_src = '../../' + img_src.lstrip('/')
+                    template = template.replace('{{image}}', img_src)
+                elif key == 'amenities' and val:
                     items = [x.strip() for x in str(val).split(',')]
                     li_html = "".join([f'<li><i class="fas fa-check" style="color: var(--primary); margin-right: 8px;"></i> {x}</li>' for x in items if x])
                     template = template.replace("{{amenities}}", li_html)
@@ -136,5 +145,6 @@ def main():
                     
             with open(f'listings/{slug}/index.html', 'w', encoding='utf-8') as f:
                 f.write(template)
+
 if __name__ == '__main__':
     main()
