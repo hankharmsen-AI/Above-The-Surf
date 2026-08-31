@@ -1,11 +1,11 @@
 /* ===== BASE & RESET ===== */
 :root {
-    --primary: #475569; /* Slate 600 */
-    --primary-light: #334155; /* Slate 700 */
-    --accent: #1e293b; /* Slate 800 */ 
-    --text-main: #334155;
-    --text-muted: #64748b;
-    --bg-main: #f8fafc; /* Very light slate / off-white */
+    --primary: #1E5060; /* Deep Coastal Teal */
+    --primary-light: #2B6D82; /* Lighter Teal */
+    --accent: #E09E36; /* Warm Gold Accent */ 
+    --text-main: #11232D; /* Deep Navy Text */
+    --text-muted: #4F6575;
+    --bg-main: #F4F7F8; /* Coastal Sea-Salt White */
     --bg-card: #ffffff; /* White cards */
     --border: #e2e8f0;
     
@@ -30,7 +30,7 @@ h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-heading);
     font-weight: 700;
     line-height: 1.2;
-    color: #0f172a;
+    color: var(--text-main);
 }
 a { text-decoration: none; color: var(--primary); transition: color 0.3s ease; }
 a:hover { color: var(--primary-light); }
@@ -60,11 +60,11 @@ ul { list-style: none; }
 }
 #navbar.scrolled { box-shadow: var(--shadow); background-color: rgba(255, 255, 255, 0.98); }
 .nav-container { max-width: 1400px; margin: 0 auto; padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; }
-.nav-logo { font-family: var(--font-heading); font-weight: 800; font-size: 1.5rem; color: #0f172a; letter-spacing: -0.5px; }
+.nav-logo { font-family: var(--font-heading); font-weight: 800; font-size: 1.5rem; color: var(--text-main); letter-spacing: -0.5px; }
 .nav-links { display: flex; align-items: center; gap: 32px; }
 .nav-links a:not(.btn-primary) { color: var(--text-main); font-weight: 500; font-size: 0.95rem; }
 .nav-links a:not(.btn-primary):hover { color: var(--primary); }
-.hamburger { display: none; font-size: 1.5rem; color: #0f172a; cursor: pointer; }
+.hamburger { display: none; font-size: 1.5rem; color: var(--text-main); cursor: pointer; }
 
 /* ===== HERO SECTION ===== */
 .hero {
@@ -101,10 +101,10 @@ ul { list-style: none; }
 .property-image { position: relative; height: 240px; background: var(--border); overflow: hidden; }
 .property-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
 .property-card:hover .property-image img { transform: scale(1.05); }
-.badge { position: absolute; top: 16px; left: 16px; background: var(--primary); color: #ffffff; padding: 6px 14px; border-radius: 6px; font-size: 0.75rem; font-weight: 800; letter-spacing: 1px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); z-index: 2; }
+.badge { background: var(--accent); color: #fff; position: absolute; top: 16px; left: 16px; padding: 6px 14px; border-radius: 6px; font-size: 0.75rem; font-weight: 800; letter-spacing: 1px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); z-index: 2; }
 .property-details { padding: 24px; flex-grow: 1; display: flex; flex-direction: column; }
 .property-price { font-family: var(--font-heading); font-weight: 700; font-size: 1.5rem; color: var(--primary); margin-bottom: 8px; }
-.property-title { font-size: 1.2rem; margin-bottom: 8px; color: #0f172a; }
+.property-title { font-size: 1.2rem; margin-bottom: 8px; color: var(--text-main); }
 .property-location { font-size: 0.95rem; color: var(--text-muted); margin-bottom: 20px; flex-grow: 1; }
 .property-location i { color: var(--primary); margin-right: 6px; }
 .property-meta { display: flex; justify-content: space-between; border-top: 1px solid var(--border); padding-top: 16px; font-size: 0.9rem; color: var(--text-muted); }
@@ -135,7 +135,7 @@ ul { list-style: none; }
 .contact-info > p { margin-bottom: 40px; color: var(--text-muted); }
 .info-item { display: flex; margin-bottom: 32px; }
 .info-item i { font-size: 1.5rem; margin-right: 20px; color: var(--primary); }
-.info-item h4 { color: #0f172a; font-size: 1rem; margin-bottom: 4px; }
+.info-item h4 { color: var(--text-main); font-size: 1rem; margin-bottom: 4px; }
 .info-item p { color: var(--text-muted); font-size: 0.95rem; }
 .contact-form { padding: 60px 40px; }
 .contact-form h3 { margin-bottom: 24px; }
@@ -147,9 +147,9 @@ ul { list-style: none; }
 .form-group textarea { height: 120px; resize: vertical; }
 
 /* ===== PROPERTY DETAIL PAGE ===== */
-.page-header { padding: 140px 0 60px; text-align: center; background: linear-gradient(to bottom, #e2e8f0, #f8fafc); border-bottom: 1px solid var(--border); }
-.page-header h1 { font-size: 3rem; margin-bottom: 16px; color: #0f172a; }
-.page-header p { font-size: 1.1rem; color: var(--text-muted); max-width: 600px; margin: 0 auto; }
+.page-header { padding: 140px 0 60px; text-align: center; background: linear-gradient(135deg, var(--primary) 0%, #153A47 100%); color: #ffffff; border-bottom: none; }
+.page-header h1 { font-size: 3rem; margin-bottom: 16px; color: #ffffff !important; }
+.page-header p { font-size: 1.1rem; color: #E0E6ED !important; max-width: 600px; margin: 0 auto; }
 
 .property-detail-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 40px; }
 .property-gallery { margin-bottom: 40px; }
@@ -174,7 +174,7 @@ ul { list-style: none; }
 .agent-details p { font-size: 0.9rem; color: var(--primary); }
 
 /* ===== FOOTER ===== */
-footer { background: #0f172a; padding: 80px 0 30px; border-top: 1px solid var(--border); color: #f8fafc; }
+footer { background: linear-gradient(135deg, #0A1929 0%, #11232D 100%); padding: 80px 0 30px; border-top: 5px solid var(--accent); color: #f8fafc; }
 .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 60px; }
 .footer-logo { font-family: var(--font-heading); font-size: 1.5rem; font-weight: 800; color: #ffffff; margin-bottom: 16px; display: inline-block; }
 .footer-brand p { margin-bottom: 24px; font-size: 0.95rem; color: #cbd5e1; }
@@ -210,3 +210,14 @@ footer { background: #0f172a; padding: 80px 0 30px; border-top: 1px solid var(--
     z-index: 0;
 }
 
+
+
+
+
+
+.page-header .property-price { color: #ffffff !important; text-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+.page-header i { color: var(--accent) !important; }
+
+.bg-coastal { background: linear-gradient(135deg, #0A1929 0%, #1E5060 100%); color: #ffffff; padding: 100px 0; }
+.bg-coastal h2 { color: #ffffff !important; }
+.bg-coastal p { color: #cbd5e1 !important; }

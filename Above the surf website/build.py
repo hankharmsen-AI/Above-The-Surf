@@ -1,5 +1,6 @@
 import os
 import re
+import json
 
 def parse_markdown(filepath):
     try:
@@ -54,7 +55,7 @@ def build_property_card(prop, is_subdir=False):
                 </div>
 '''
 
-def update_file(template_path, output_path, properties_to_render, is_subdir=False):
+def update_file(template_path, output_path, properties_to_render, is_subdir=False, all_properties=None):
     if not os.path.exists(template_path):
         return
         
@@ -66,10 +67,39 @@ def update_file(template_path, output_path, properties_to_render, is_subdir=Fals
             html = f.read()
         
     grid_html = "".join([build_property_card(p, is_subdir) for p in properties_to_render if p])
-    
     html = re.sub(r'<!-- CMS_PROPERTIES_START -->.*?<!-- CMS_PROPERTIES_END -->', 
                   f'<!-- CMS_PROPERTIES_START -->\n{grid_html}<!-- CMS_PROPERTIES_END -->', 
                   html, flags=re.DOTALL)
+
+    sales = [p for p in properties_to_render if p.get('badge') == 'FOR SALE']
+    rentals = [p for p in properties_to_render if p.get('badge') == 'VACATION RENTAL']
+
+    sales_html = "".join([build_property_card(p, is_subdir) for p in sales if p])
+    rentals_html = "".join([build_property_card(p, is_subdir) for p in rentals if p])
+
+    html = re.sub(r'<!-- CMS_SALES_START -->.*?<!-- CMS_SALES_END -->', 
+                  f'<!-- CMS_SALES_START -->\n{sales_html}<!-- CMS_SALES_END -->', 
+                  html, flags=re.DOTALL)
+    html = re.sub(r'<!-- CMS_RENTALS_START -->.*?<!-- CMS_RENTALS_END -->', 
+                  f'<!-- CMS_RENTALS_START -->\n{rentals_html}<!-- CMS_RENTALS_END -->', 
+                  html, flags=re.DOTALL)
+                  
+    if '<!-- CMS_MAP_DATA -->' in html and all_properties is not None:
+        map_data = []
+        for p in all_properties:
+            if p.get('lat') and p.get('lng'):
+                link_prefix = "../listings/" if is_subdir else "listings/"
+                map_data.append({
+                    'title': p.get('title', ''),
+                    'price': p.get('price', ''),
+                    'lat': float(p.get('lat')),
+                    'lng': float(p.get('lng')),
+                    'badge': p.get('badge', ''),
+                    'url': f"{link_prefix}{p.get('slug', '')}/index.html",
+                    'image': p.get('image', '')
+                })
+        map_json = json.dumps(map_data)
+        html = html.replace('<!-- CMS_MAP_DATA -->', map_json)
                   
     with open(output_path, 'w', encoding='utf-8') as f:
         f.write(html)
@@ -85,8 +115,8 @@ def main():
                 if prop and prop.get('slug'):
                     properties.append(prop)
                     
-    update_file('templates/properties.template.html', 'properties.html', properties)
-    update_file('templates/index.template.html', 'index.html', properties)
+    update_file('templates/properties.template.html', 'properties.html', properties, all_properties=properties)
+    update_file('templates/index.template.html', 'index.html', properties, all_properties=properties)
     
     dest_dir = 'destinations'
     if os.path.exists(dest_dir):
@@ -100,7 +130,7 @@ def main():
             filtered = [p for p in properties if p.get('country') == country]
             template = f'templates/{slug}.template.html'
             output = f'destinations/{slug}.html'
-            update_file(template, output, filtered, is_subdir=True)
+            update_file(template, output, filtered, is_subdir=True, all_properties=properties)
             
     listing_template = 'templates/listing.template.html'
     if os.path.exists(listing_template):
@@ -121,9 +151,19 @@ def main():
             os.makedirs(f'listings/{slug}', exist_ok=True)
             template = base_template
             
-            keys = ['title', 'location', 'price', 'badge', 'beds', 'baths', 'size', 'body', 'image', 'amenities']
+            keys = ['title', 'location', 'price', 'badge', 'beds', 'baths', 'size', 'body', 'image', 'amenities', 'surf_score', 'wave_height', 'water_temp', 'consistency', 'break_type', 'crowd_level', 'quality_score', 'size_score', 'consistency_score', 'crowd_score', 'proximity_score', 'lat', 'lng']
             for key in keys:
                 val = prop.get(key, '')
+                
+                # Special handling for out-of-10 score bars
+                if key in ['proximity_score', 'quality_score', 'size_score', 'consistency_score', 'crowd_score']:
+                    try:
+                        score_float = float(val)
+                        width_val = int(score_float * 10)
+                        template = template.replace(f"{{{{{key}_width}}}}", str(width_val))
+                    except ValueError:
+                        template = template.replace(f"{{{{{key}_width}}}}", "0")
+                        
                 if key == 'image':
                     img_src = str(val)
                     if not img_src.startswith('http'):

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Above the Surf | Premium Surf Real Estate</title>
+    <link rel="icon" type="image/png" href="favicon.png">
     <meta name="description" content="Browse premium surf real estate worldwide â beachfront villas, turnkey homes, and prime coastal land.">
     
     <!-- Google Fonts: Montserrat & Work Sans -->
@@ -17,6 +18,8 @@
     <link rel="stylesheet" href="css/style.css">
     <!-- Netlify Identity -->
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 </head>
 <body>
 
@@ -24,13 +27,13 @@
     <nav id="navbar">
         <div class="nav-container">
             <a href="#" class="nav-logo">
-                <span style="font-family: var(--font-heading); font-weight: 800; font-size: 1.5rem; letter-spacing: 1px; color: var(--primary-color);">ABOVE THE SURF</span>
+                <img src="Pictures/logo.png" alt="Above the Surf Logo" style="height: 80px; width: auto; mix-blend-mode: multiply;">
             </a>
             <ul class="nav-links">
                 <li><a href="properties.html">Properties</a></li>
                 <li><a href="destinations.html">Destinations</a></li>
                 <li><a href="about.html">About Us</a></li>
-                <li><a href="contact.html" class="btn-primary">List Your Property</a></li>
+                <li><a href="properties.html" class="btn-primary" style="padding: 12px 24px; font-weight: 800;">Find Your Paradise</a></li>
             </ul>
             <div class="hamburger">
                 <i class="fas fa-bars"></i>
@@ -70,32 +73,111 @@
         </div>
     </header>
 
-    <!-- Featured Properties -->
-    <section class="section bg-light" id="properties">
+    
+    <section class="section" style="padding: 40px 0 20px; background-color: var(--bg-main);">
+        <div class="container">
+            <div class="section-header" style="text-align: center; margin-bottom: 20px;">
+                <h2 style="color: var(--text-main);">Global Surf Properties</h2>
+                <p style="color: var(--text-muted);">Explore our exclusive listings across North & Central America</p>
+                <div style="margin: 30px auto 0 auto; display: flex; justify-content: center; gap: 0; background: #e2e8f0; border-radius: 60px; padding: 5px; width: max-content; box-shadow: var(--shadow);">
+                    <button class="map-filter active-toggle" data-filter="VACATION RENTAL" style="padding: 12px 36px; border-radius: 60px; border: none; font-weight: 800; font-size: 1.1rem; cursor: pointer; transition: 0.3s; background: var(--primary); color: #fff;">Luxury Rentals</button>
+                    <button class="map-filter inactive-toggle" data-filter="FOR SALE" style="padding: 12px 36px; border-radius: 60px; border: none; font-weight: 800; font-size: 1.1rem; cursor: pointer; transition: 0.3s; background: transparent; color: var(--text-main);">Exclusive Sales</button>
+                </div>
+            </div>
+            <div id="map" style="height: 500px; width: 100%; border-radius: var(--radius); box-shadow: var(--shadow-lg); z-index: 1;"></div>
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var bounds = [[-85, -180], [85, 180]];
+            var map = L.map("map", {
+                maxBounds: bounds,
+                maxBoundsViscosity: 1.0,
+                minZoom: 3
+            }).setView([23.0, -100.0], 3);
+            L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}", {
+                attribution: "Tiles &copy; Esri",
+                maxZoom: 19,
+                noWrap: true,
+                bounds: bounds
+            }).addTo(map);
+
+            var properties = [{"title": "Modern Eco-Home in the Jungle", "price": "$1,250/night", "lat": 9.6405, "lng": -85.1654, "badge": "VACATION RENTAL", "url": "listings/eco-home-costa-rica/index.html", "image": "Pictures/IMG_0657.jpeg"}, {"title": "Kua Nalu Poipu Beach - Best Beach House", "price": "$8,500,000", "lat": 21.8711, "lng": -159.4636, "badge": "FOR SALE", "url": "listings/kua-nalu-poipu/index.html", "image": "https://bookingenginecdn.hostaway.com/listing/39200-104833-PEI6QJpmSV62dYYgE--h-i7BMz5Hg3fdgY0o1nEOYZfo-6a274c1e17eb5?width=1920&quality=70&format=webp&v=2"}, {"title": "Mission Beach Oceanfront Estate", "price": "$7,500,000", "lat": 32.7758, "lng": -117.2526, "badge": "FOR SALE", "url": "listings/mission-beach-estate/index.html", "image": "https://bookingenginecdn.hostaway.com/listing/39200-104834-MdIyHvVVvAGqvtPrErX8OGn0Moo5UnvkMTUOphfMXQA-62474c9f8f12a?width=1920&quality=70&format=webp&v=2"}, {"title": "Walk to Poipu Beach - 4BR + Bonus - Pool", "price": "$1,250/night", "lat": 21.8725, "lng": -159.465, "badge": "VACATION RENTAL", "url": "listings/poipu-beach-4br-pool/index.html", "image": "https://bookingenginecdn.hostaway.com/listing/39200-105700-SZL0IYLkGBp5ZPoXxxdwxuXu--g49BZ9dC5iImr8ohNw-62506c3c6e8bd?width=1920&quality=70&format=webp&v=2"}, {"title": "Beachfront Villa with Surf Views", "price": "$2,100,000", "lat": 11.4552, "lng": -86.1265, "badge": "FOR SALE", "url": "listings/popoyo-villa/index.html", "image": "Pictures/IMG_8693.jpeg"}, {"title": "Ocean View Lot - Surf Break Access", "price": "$850,000", "lat": 20.871, "lng": -105.441, "badge": "FOR SALE", "url": "listings/sayulita-lot/index.html", "image": "Pictures/IMG_8732.jpeg"}];
+            var markers = [];
+
+            var customIcon = L.icon({
+                iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
+                iconRetinaUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
+                shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+                iconSize: [25, 41],
+                iconAnchor: [12, 41],
+                popupAnchor: [1, -34],
+                shadowSize: [41, 41]
+            });
+
+            function renderMarkers(filter) {
+                markers.forEach(m => map.removeLayer(m));
+                markers = [];
+
+                properties.forEach(p => {
+                    if (p.badge === filter) {
+                        var m = L.marker([p.lat, p.lng], {icon: customIcon}).addTo(map);
+                        
+                        var popupContent = `
+                            <div style="text-align: center; min-width: 150px;">
+                                <strong style="font-family: var(--font-heading); font-size: 1.1rem; color: var(--primary);">${p.price}</strong><br>
+                                <span style="font-size: 0.9rem; color: #334155;">${p.title}</span><br>
+                                <a href="${p.url}" style="display: inline-block; margin-top: 8px; font-weight: bold; color: var(--accent);">View Details &rarr;</a>
+                            </div>
+                        `;
+                        m.bindPopup(popupContent);
+                        markers.push(m);
+                    }
+                });
+
+                // Also toggle the grids below
+                var salesGrid = document.getElementById("properties-sales");
+                var rentalsGrid = document.getElementById("properties-rentals");
+                if(salesGrid && rentalsGrid) {
+                    if(filter === "FOR SALE") {
+                        salesGrid.style.display = "block";
+                        rentalsGrid.style.display = "none";
+                    } else {
+                        salesGrid.style.display = "none";
+                        rentalsGrid.style.display = "block";
+                    }
+                }
+            }
+
+            // Init default
+            renderMarkers("VACATION RENTAL");
+
+            document.querySelectorAll(".map-filter").forEach(btn => {
+                btn.addEventListener("click", function() {
+                    document.querySelectorAll(".map-filter").forEach(b => {
+                        b.style.background = "transparent";
+                        b.style.color = "var(--text-main)";
+                    });
+                    this.style.background = "var(--primary)";
+                    this.style.color = "#fff";
+                    renderMarkers(this.getAttribute("data-filter"));
+                });
+            });
+        });
+    </script>
+
+
+      <!-- Featured Properties -->
+    <section class="section bg-coastal" id="properties-sales" style="display: none;">
         <div class="container">
             <div class="section-header">
-                <h2>Featured Surf Properties</h2>
-                <p>Discover our hand-picked selection of premium coastal real estate.</p>
+                <h2>Exclusive Sales</h2>
+                <p>Discover our hand-picked selection of premium coastal real estate for sale.</p>
             </div>
             
             <div class="property-grid">
-                <!-- CMS_PROPERTIES_START -->
-                <div class="property-card" data-country="Costa Rica" onclick="window.location.href='listings/eco-home-costa-rica/index.html';" style="cursor: pointer;">
-                        <div class="property-image">
-                            <img src="Pictures/IMG_0657.jpeg" alt="Modern Eco-Home in the Jungle">
-                            <span class="badge">FOR SALE</span>
-                        </div>
-                    <div class="property-details">
-                        <div class="property-price">$1,250,000</div>
-                        <h3 class="property-title">Modern Eco-Home in the Jungle</h3>
-                        <div class="property-location"><i class="fas fa-map-marker-alt"></i> Santa Teresa, Costa Rica</div>
-                        <div class="property-meta">
-                            <span><i class="fas fa-bed"></i> 3 Beds</span>
-                            <span><i class="fas fa-bath"></i> 2 Baths</span>
-                            <span><i class="fas fa-expand"></i> 2,100 sq ft</span>
-                        </div>
-                    </div>
-                </div>
+                <!-- CMS_SALES_START -->
                 <div class="property-card" data-country="United States" onclick="window.location.href='listings/kua-nalu-poipu/index.html';" style="cursor: pointer;">
                         <div class="property-image">
                             <img src="https://bookingenginecdn.hostaway.com/listing/39200-104833-PEI6QJpmSV62dYYgE--h-i7BMz5Hg3fdgY0o1nEOYZfo-6a274c1e17eb5?width=1920&quality=70&format=webp&v=2" alt="Kua Nalu Poipu Beach - Best Beach House">
@@ -125,22 +207,6 @@
                             <span><i class="fas fa-bed"></i> 6 Beds</span>
                             <span><i class="fas fa-bath"></i> 5 Baths</span>
                             <span><i class="fas fa-expand"></i> 5,000 sq ft</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="property-card" data-country="United States" onclick="window.location.href='listings/poipu-beach-4br-pool/index.html';" style="cursor: pointer;">
-                        <div class="property-image">
-                            <img src="https://bookingenginecdn.hostaway.com/listing/39200-105700-SZL0IYLkGBp5ZPoXxxdwxuXu--g49BZ9dC5iImr8ohNw-62506c3c6e8bd?width=1920&quality=70&format=webp&v=2" alt="Walk to Poipu Beach - 4BR + Bonus - Pool">
-                            <span class="badge">FOR SALE</span>
-                        </div>
-                    <div class="property-details">
-                        <div class="property-price">$6,200,000</div>
-                        <h3 class="property-title">Walk to Poipu Beach - 4BR + Bonus - Pool</h3>
-                        <div class="property-location"><i class="fas fa-map-marker-alt"></i> Poipu, Hawaii</div>
-                        <div class="property-meta">
-                            <span><i class="fas fa-bed"></i> 5 Beds</span>
-                            <span><i class="fas fa-bath"></i> 4 Baths</span>
-                            <span><i class="fas fa-expand"></i> 4,100 sq ft</span>
                         </div>
                     </div>
                 </div>
@@ -176,9 +242,61 @@
                         </div>
                     </div>
                 </div>
-<!-- CMS_PROPERTIES_END --></div>
+<!-- CMS_SALES_END -->
+            </div>
+            
             <div class="text-center mt-40">
-                <a href="properties.html" class="btn-outline">View All Properties</a>
+                <a href="properties.html#sales" class="btn-outline" style="color: #ffffff; border-color: #ffffff;">View All Sales</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section bg-coastal" id="properties-rentals" style="display: none;">
+        <div class="container">
+            <div class="section-header">
+                <h2>Luxury Rentals</h2>
+                <p>Experience the world's best waves from the comfort of our luxury vacation rentals.</p>
+            </div>
+            
+            <div class="property-grid">
+                <!-- CMS_RENTALS_START -->
+                <div class="property-card" data-country="Costa Rica" onclick="window.location.href='listings/eco-home-costa-rica/index.html';" style="cursor: pointer;">
+                        <div class="property-image">
+                            <img src="Pictures/IMG_0657.jpeg" alt="Modern Eco-Home in the Jungle">
+                            <span class="badge">VACATION RENTAL</span>
+                        </div>
+                    <div class="property-details">
+                        <div class="property-price">$1,250/night</div>
+                        <h3 class="property-title">Modern Eco-Home in the Jungle</h3>
+                        <div class="property-location"><i class="fas fa-map-marker-alt"></i> Santa Teresa, Costa Rica</div>
+                        <div class="property-meta">
+                            <span><i class="fas fa-bed"></i> 3 Beds</span>
+                            <span><i class="fas fa-bath"></i> 2 Baths</span>
+                            <span><i class="fas fa-expand"></i> 2,100 sq ft</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="property-card" data-country="United States" onclick="window.location.href='listings/poipu-beach-4br-pool/index.html';" style="cursor: pointer;">
+                        <div class="property-image">
+                            <img src="https://bookingenginecdn.hostaway.com/listing/39200-105700-SZL0IYLkGBp5ZPoXxxdwxuXu--g49BZ9dC5iImr8ohNw-62506c3c6e8bd?width=1920&quality=70&format=webp&v=2" alt="Walk to Poipu Beach - 4BR + Bonus - Pool">
+                            <span class="badge">VACATION RENTAL</span>
+                        </div>
+                    <div class="property-details">
+                        <div class="property-price">$1,250/night</div>
+                        <h3 class="property-title">Walk to Poipu Beach - 4BR + Bonus - Pool</h3>
+                        <div class="property-location"><i class="fas fa-map-marker-alt"></i> Poipu, Hawaii</div>
+                        <div class="property-meta">
+                            <span><i class="fas fa-bed"></i> 5 Beds</span>
+                            <span><i class="fas fa-bath"></i> 4 Baths</span>
+                            <span><i class="fas fa-expand"></i> 4,100 sq ft</span>
+                        </div>
+                    </div>
+                </div>
+<!-- CMS_RENTALS_END -->
+            </div>
+            
+            <div class="text-center mt-40">
+                <a href="properties.html#rentals" class="btn-outline" style="color: #ffffff; border-color: #ffffff;">View All Rentals</a>
             </div>
         </div>
     </section>
@@ -228,7 +346,7 @@
     </section>
 
     <!-- About Section -->
-    <section class="section bg-light" id="about">
+    <section class="section bg-coastal" id="about">
         <div class="container">
             <div class="about-grid">
                 <div class="about-text">
@@ -309,7 +427,9 @@
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-brand">
-                    <a href="#" class="footer-logo">ABOVE THE SURF</a>
+                    <a href="index.html" class="footer-logo">
+                    <img src="Pictures/logo.png" alt="Above the Surf Logo" style="height: 70px; width: auto; filter: brightness(0) invert(1);">
+                </a>
                     <p>The premier global platform for buying and selling surf real estate, beachfront homes, and coastal resorts.</p>
                     
                 </div>
@@ -364,6 +484,18 @@
     </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
