@@ -17,11 +17,12 @@
     <nav id="navbar" class="scrolled">
         <div class="nav-container">
             <a href="index.html" class="nav-logo">
-                <img src="Pictures/logo.png" alt="Above the Surf Logo" style="height: 80px; width: auto; mix-blend-mode: multiply;">
+                <img src="Pictures/logo_transparent.png" alt="Above the Surf Logo" style="height: 80px; width: auto; ">
             </a>
             <ul class="nav-links">
                 <li><a href="properties.html">Properties</a></li>
                 <li><a href="destinations.html">Destinations</a></li>
+                <li><a href="surf-trips.html">Surf Trips</a></li>
                 <li><a href="about.html">About Us</a></li>
                 <li><a href="properties.html" class="btn-primary" style="padding: 12px 24px; font-weight: 800;">Find Your Paradise</a></li>
             </ul>
@@ -47,8 +48,8 @@
     <section class="section">
         <div class="container">
             <div style="margin: 0 auto 50px auto; display: flex; justify-content: center; gap: 0; background: #e2e8f0; border-radius: 60px; padding: 5px; width: max-content; box-shadow: var(--shadow);">
-        <button class="prop-filter active-toggle" data-filter="VACATION RENTAL" style="padding: 12px 36px; border-radius: 60px; border: none; font-weight: 800; font-size: 1.1rem; cursor: pointer; transition: 0.3s; background: var(--primary); color: #fff;">Luxury Rentals</button>
-        <button class="prop-filter inactive-toggle" data-filter="FOR SALE" style="padding: 12px 36px; border-radius: 60px; border: none; font-weight: 800; font-size: 1.1rem; cursor: pointer; transition: 0.3s; background: transparent; color: var(--text-main);">Exclusive Sales</button>
+        <button class="prop-filter active-toggle" data-filter="VACATION RENTAL" style="padding: 12px 36px; border-radius: 60px; border: none; font-weight: 800; font-size: 1.1rem; cursor: pointer; transition: 0.3s; background: var(--primary); color: #0A1929;">Vacation Rentals</button>
+        <button class="prop-filter inactive-toggle" data-filter="FOR SALE" style="padding: 12px 36px; border-radius: 60px; border: none; font-weight: 800; font-size: 1.1rem; cursor: pointer; transition: 0.3s; background: transparent; color: #cbd5e1;">Properties for Sale</button>
     </div>
 
     <div class="property-grid" id="properties-rentals">
@@ -67,7 +68,7 @@
                 btn.addEventListener("click", function() {
                     document.querySelectorAll(".prop-filter").forEach(b => {
                         b.style.background = "transparent";
-                        b.style.color = "var(--text-main)";
+                        b.style.color = "#cbd5e1";
                     });
                     this.style.background = "var(--primary)";
                     this.style.color = "#fff";
@@ -93,7 +94,7 @@
             <div class="footer-grid">
                 <div class="footer-brand">
                     <a href="index.html" class="footer-logo">
-                    <img src="Pictures/logo.png" alt="Above the Surf Logo" style="height: 70px; width: auto; filter: brightness(0) invert(1);">
+                    <img src="Pictures/logo_transparent.png" alt="Above the Surf Logo" style="height: 70px; width: auto; ">
                 </a>
                     <p>The premier global platform for buying and selling surf real estate, beachfront homes, and coastal resorts.</p>
                     
@@ -118,7 +119,8 @@
                 <div class="footer-links">
                     <h4>Company</h4>
                     <ul>
-                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="surf-trips.html">Surf Trips</a></li>
+                <li><a href="about.html">About Us</a></li>
                         <li><a href="contact.html">Contact</a></li>
                     </ul>
                 </div>

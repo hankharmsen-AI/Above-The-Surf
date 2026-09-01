@@ -16,11 +16,12 @@
     <nav id="navbar" class="scrolled">
         <div class="nav-container">
             <a href="../../index.html" class="nav-logo">
-                <img src="../../Pictures/logo.png" alt="Above the Surf Logo" style="height: 80px; width: auto; mix-blend-mode: multiply;">
+                <img src="../../Pictures/logo_transparent.png" alt="Above the Surf Logo" style="height: 80px; width: auto; ">
             </a>
             <ul class="nav-links">
                 <li><a href="../../properties.html">Properties</a></li>
                 <li><a href="../../destinations.html">Destinations</a></li>
+                <li><a href="../../surf-trips.html">Surf Trips</a></li>
                 <li><a href="../../about.html">About Us</a></li>
                 <li><a href="../../properties.html" class="btn-primary" style="padding: 12px 24px; font-weight: 800;">Find Your Paradise</a></li>
             </ul>
@@ -48,7 +49,7 @@
         <p style="margin: 0; color: var(--primary);"><i class="fas fa-map-marker-alt"></i> Santa Teresa, Costa Rica</p>
     </div>
     <div class="property-header-right">
-        <div class="property-price" style="font-size: 2.5rem; color: var(--text-main); font-weight: 800;">$1,250/night</div>
+        <div class="property-price" style="font-size: 2.5rem; color: #ffffff; font-weight: 800;">$1,250/night</div>
         <span class="badge" style="position: relative; top: 0; left: 0; display: inline-block; margin-top: 8px;">VACATION RENTAL</span>
     </div>
 </div>
@@ -59,7 +60,7 @@
     <div class="container">
         
         <!-- TOP ROW: Full Width Stats -->
-        <div class="overview-stats" style="margin-bottom: 40px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; background: #fff; padding: 25px; border-radius: 12px; box-shadow: var(--shadow-lg);">
+        <div class="overview-stats" style="margin-bottom: 40px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; background: var(--bg-card); padding: 25px; border-radius: 12px; box-shadow: var(--shadow-lg);">
             <div class="stat" style="text-align: center; border-right: 1px solid var(--border);">
                 <div class="stat-value" style="font-size: 1.8rem; color: var(--primary); font-weight: 800;"><i class="fas fa-bed"></i> 3</div>
                 <div class="stat-label" style="font-size: 0.9rem; text-transform: uppercase; color: var(--text-muted); margin-top: 5px; font-weight: 600;">Bedrooms</div>
@@ -81,13 +82,13 @@
             <div class="property-image" style="height: 100%; min-height: 400px; border-radius: var(--radius); background: url('../../Pictures/IMG_0657.jpeg') center/cover no-repeat; box-shadow: var(--shadow-lg);"></div>
             
             <!-- ROW 1, COL 2: Description -->
-            <div class="property-description" style="background: #fff; padding: 40px; border-radius: 12px; box-shadow: var(--shadow-lg); height: 100%; display: flex; flex-direction: column; justify-content: center;">
-                <h3 style="margin-top: 0; color: var(--text-main); font-size: 1.5rem;">About This Property</h3>
+            <div class="property-description" style="background: var(--bg-card); padding: 40px; border-radius: 12px; box-shadow: var(--shadow-lg); height: 100%; display: flex; flex-direction: column; justify-content: center;">
+                <h3 style="margin-top: 0; color: #ffffff; font-size: 1.5rem;">About This Property</h3>
                 <div style="color: var(--text-muted); line-height: 1.8;">
                     <p>Seamlessly blending indoor and outdoor living, this modern architectural masterpiece is nestled high in the jungle canopy of Santa Teresa.</p><p>The home is entirely off-grid capable, featuring a state-of-the-art solar array, rainwater catchment, and passive cooling design. Enjoy morning coffee on the expansive teak yoga deck listening to the howler monkeys, followed by a short 5-minute walk down a private path to the pristine white sands and world-class waves of Playa Hermosa.</p>
                 </div>
                 
-                <h3 style="margin-top: 32px; color: var(--text-main); font-size: 1.5rem;">Features & Amenities</h3>
+                <h3 style="margin-top: 32px; color: #ffffff; font-size: 1.5rem;">Features & Amenities</h3>
                 <ul style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; color: var(--text-muted);">
                     <li><i class="fas fa-check" style="color: var(--primary); margin-right: 8px;"></i> Solar Power</li><li><i class="fas fa-check" style="color: var(--primary); margin-right: 8px;"></i> Infinity Plunge Pool</li><li><i class="fas fa-check" style="color: var(--primary); margin-right: 8px;"></i> Outdoor Shower</li><li><i class="fas fa-check" style="color: var(--primary); margin-right: 8px;"></i> Yoga Deck</li><li><i class="fas fa-check" style="color: var(--primary); margin-right: 8px;"></i> Wi-Fi</li><li><i class="fas fa-check" style="color: var(--primary); margin-right: 8px;"></i> Gated Security</li>
                 </ul>
@@ -150,24 +151,24 @@
             </div>
             
             <!-- ROW 2, COL 2: Contact Form -->
-            <div class="contact-form" style="background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 40px; box-shadow: var(--shadow-lg); height: 100%; display: flex; flex-direction: column; justify-content: center;">
-                <h3 style="font-size: 1.6rem; margin-top: 0; color: var(--text-main); margin-bottom: 25px;">Inquire About This Property</h3>
+            <div class="contact-form" style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 40px; box-shadow: var(--shadow-lg); height: 100%; display: flex; flex-direction: column; justify-content: center;">
+                <h3 style="font-size: 1.6rem; margin-top: 0; color: #ffffff; margin-bottom: 25px;">Inquire About This Property</h3>
                 <form name="property-inquiry" method="POST" data-netlify="true" style="flex-grow: 1; display: flex; flex-direction: column; justify-content: center;">
                     <input type="hidden" name="property" value="Modern Eco-Home in the Jungle">
                     <div class="form-group" style="margin-bottom: 16px;">
-                        <label style="display: block; margin-bottom: 6px; font-weight: bold; color: var(--text-main);">Name</label>
+                        <label style="display: block; margin-bottom: 6px; font-weight: bold; color: #ffffff;">Name</label>
                         <input type="text" name="name" placeholder="Your Name" required style="width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 6px; font-family: inherit;">
                     </div>
                     <div class="form-group" style="margin-bottom: 16px;">
-                        <label style="display: block; margin-bottom: 6px; font-weight: bold; color: var(--text-main);">Email</label>
+                        <label style="display: block; margin-bottom: 6px; font-weight: bold; color: #ffffff;">Email</label>
                         <input type="email" name="email" placeholder="your@email.com" required style="width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 6px; font-family: inherit;">
                     </div>
                     <div class="form-group" style="margin-bottom: 16px;">
-                        <label style="display: block; margin-bottom: 6px; font-weight: bold; color: var(--text-main);">Phone</label>
+                        <label style="display: block; margin-bottom: 6px; font-weight: bold; color: #ffffff;">Phone</label>
                         <input type="tel" name="phone" placeholder="(555) 123-4567" style="width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 6px; font-family: inherit;">
                     </div>
                     <div class="form-group" style="margin-bottom: 25px;">
-                        <label style="display: block; margin-bottom: 6px; font-weight: bold; color: var(--text-main);">Message</label>
+                        <label style="display: block; margin-bottom: 6px; font-weight: bold; color: #ffffff;">Message</label>
                         <textarea name="message" placeholder="I'm interested in learning more about this property..." required style="width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 6px; height: 90px; resize: none; font-family: inherit;"></textarea>
                     </div>
                     <button type="submit" class="btn-primary" style="width: 100%; padding: 16px; font-size: 1.15rem; border-radius: 8px; font-weight: bold; margin-top: auto;">Send Message</button>
@@ -175,9 +176,9 @@
             </div>
             
             <!-- ROW 3: Full Width Map -->
-            <div style="grid-column: 1 / -1; margin-top: 10px; background: #fff; border-radius: 12px; box-shadow: var(--shadow-lg); overflow: hidden; border: 1px solid var(--border);">
+            <div style="grid-column: 1 / -1; margin-top: 10px; background: var(--bg-card); border-radius: 12px; box-shadow: var(--shadow-lg); overflow: hidden; border: 1px solid var(--border);">
                 <div style="padding: 20px; border-bottom: 1px solid var(--border); background: var(--bg-card);">
-                    <h3 style="margin: 0; font-size: 1.4rem; color: var(--text-main);"><i class="fas fa-map-marked-alt" style="color: var(--primary); margin-right: 10px;"></i>Property Location</h3>
+                    <h3 style="margin: 0; font-size: 1.4rem; color: #ffffff;"><i class="fas fa-map-marked-alt" style="color: var(--primary); margin-right: 10px;"></i>Property Location</h3>
                 </div>
                 <div id="property-map" style="height: 400px; width: 100%; z-index: 1;"></div>
             </div>

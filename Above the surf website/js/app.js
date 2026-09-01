@@ -12,99 +12,53 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Mobile Menu Toggle
+    // Mobile menu toggle
     const hamburger = document.querySelector('.hamburger');
     const navLinks = document.querySelector('.nav-links');
     
-    if (hamburger && navLinks) {
+    if (hamburger) {
         hamburger.addEventListener('click', () => {
-            const currentStyle = window.getComputedStyle(navLinks).display;
-            if (currentStyle === 'none') {
-                navLinks.style.display = 'flex';
+            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+            if(navLinks.style.display === 'flex') {
                 navLinks.style.flexDirection = 'column';
                 navLinks.style.position = 'absolute';
                 navLinks.style.top = '100%';
-                navLinks.style.left = '0';
-                navLinks.style.right = '0';
-                navLinks.style.background = 'var(--bg-card)';
+                navLinks.style.left = 0;
+                navLinks.style.width = '100%';
+                navLinks.style.background = 'var(--bg-main)';
                 navLinks.style.padding = '20px';
-                navLinks.style.boxShadow = 'var(--shadow-lg)';
-            } else {
-                navLinks.style.display = '';
             }
         });
     }
-    // --- SEARCH LOGIC ---
-    const searchInput = document.getElementById('searchInput');
-    const searchBtn = document.getElementById('searchBtn');
 
-    const executeSearch = () => {
-        if (!searchInput) return;
-        const query = searchInput.value.trim();
-        if (query) {
-            window.location.href = 'properties.html?q=' + encodeURIComponent(query);
-        }
-    };
-
-    if (searchBtn) searchBtn.addEventListener('click', executeSearch);
-    if (searchInput) {
-        searchInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') executeSearch();
+    // Toggle logic for Properties page
+    const mapFilters = document.querySelectorAll('.map-filter');
+    if (mapFilters.length > 0) {
+        mapFilters.forEach(btn => {
+            btn.addEventListener('click', function() {
+                mapFilters.forEach(b => {
+                    b.classList.remove('active-toggle');
+                    b.classList.add('inactive-toggle');
+                    b.style.background = 'transparent';
+                    b.style.color = '#cbd5e1';
+                });
+                
+                this.classList.remove('inactive-toggle');
+                this.classList.add('active-toggle');
+                this.style.background = 'var(--primary)';
+                this.style.color = '#0A1929';
+            });
         });
     }
 
-    // If we are on properties page, filter the cards
-    const urlParams = new URLSearchParams(window.location.search);
-    const searchQuery = urlParams.get('q');
-    
-    if (searchQuery && window.location.pathname.includes('properties.html')) {
-        const query = searchQuery.toLowerCase();
-        const propertyCards = document.querySelectorAll('.property-card');
-        
-        // Update header if exists
-        const pageHeader = document.querySelector('.page-header h1');
-        if (pageHeader) {
-            pageHeader.textContent = 'Search Results for "' + searchQuery + '"';
-        }
-        
-        let matchCount = 0;
-        propertyCards.forEach(card => {
-            const title = card.querySelector('.property-title').textContent.toLowerCase();
-            const location = card.querySelector('.property-location').textContent.toLowerCase();
-            const country = (card.getAttribute('data-country') || '').toLowerCase();
-            
-            if (title.includes(query) || location.includes(query) || country.includes(query) || (query === "us" && country === "united states") || (query === "usa" && country === "united states") || (query === "america" && country === "united states")) {
-                card.style.display = 'block';
-                matchCount++;
-            } else {
-                card.style.display = 'none';
-            }
-        });
-        
-        if (matchCount === 0) {
-            const grid = document.querySelector('.property-grid');
-            if (grid) {
-                const noResults = document.createElement('p');
-                noResults.textContent = 'No properties found matching "' + searchQuery + '".';
-                noResults.style.gridColumn = '1 / -1';
-                noResults.style.textAlign = 'center';
-                noResults.style.padding = '40px';
-                grid.appendChild(noResults);
-            }
-        }
-    }
-
-});
-
-// 6-Second Interval Crossfade Logic
+    // 6-Second Interval Crossfade Logic
     const video1 = document.getElementById('bg-video-1');
     const video2 = document.getElementById('bg-video-2');
     
     if (video1 && video2) {
         const playlist = [
-            'Surf videos/7193316_compressed.mp4',
-            'Surf videos/6981356_compressed.mp4',
             'Surf videos/13007362_1280_720_25fps.mp4',
+            'Surf videos/7193316_compressed.mp4',
             'Surf videos/11901578_compressed.mp4',
             'Surf videos/16243013_compressed.mp4'
         ];
@@ -123,6 +77,18 @@ document.addEventListener('DOMContentLoaded', () => {
         video1.play().catch(e=>console.log(e));
         video2.src = playlist[1];
         video2.load();
+        
+        // Error handling for robust fallback
+        video1.onerror = () => {
+            console.log("Video 1 failed to load, skipping to next.");
+            currentIndex = (currentIndex + 1) % playlist.length;
+            video1.src = playlist[currentIndex];
+        };
+        video2.onerror = () => {
+            console.log("Video 2 failed to load, skipping to next.");
+            const nextNextIndex = (currentIndex + 1) % playlist.length;
+            video2.src = playlist[nextNextIndex];
+        };
         
         setInterval(() => {
             const currentVid = activeVideo === 1 ? video1 : video2;
@@ -150,16 +116,70 @@ document.addEventListener('DOMContentLoaded', () => {
             }).catch(err => {
                 console.log('Autoplay error:', err);
             });
+        }, 6000);
+    }
+    
+    // Global Search Logic
+    const searchBtn = document.getElementById('searchBtn');
+    const searchInput = document.getElementById('searchInput');
+    const searchSelect = document.querySelector('.search-select select');
+    
+    if (searchBtn) {
+        searchBtn.addEventListener('click', () => {
+            const loc = searchInput ? searchInput.value.trim() : '';
+            const typeVal = searchSelect ? searchSelect.value : '';
             
-        }, 6000); // Trigger transition every 6 seconds exactly
+            let query = '?';
+            if (loc) query += 'loc=' + encodeURIComponent(loc) + '&';
+            if (typeVal) query += 'type=' + encodeURIComponent(typeVal);
+            
+            // Redirect to properties page with filters
+            window.location.href = 'properties.html' + query;
+        });
     }
 
+    
+    if (searchInput) {
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && searchBtn) {
+                e.preventDefault();
+                searchBtn.click();
+            }
+        });
+    }
 
-
-
-
-
-
-
-
-
+    // Filter properties on load if query params exist
+    if (window.location.pathname.includes('properties.html') || window.location.pathname.endsWith('/')) {
+        const urlParams = new URLSearchParams(window.location.search);
+        const locFilter = urlParams.get('loc') ? urlParams.get('loc').toLowerCase() : '';
+        const typeFilter = urlParams.get('type') ? urlParams.get('type').toLowerCase() : '';
+        
+        if (locFilter || typeFilter) {
+            const cards = document.querySelectorAll('.property-card');
+            cards.forEach(card => {
+                let show = true;
+                
+                if (locFilter) {
+                    const locText = card.querySelector('.property-location');
+                    const titleText = card.querySelector('.property-title');
+                    const combined = ((locText ? locText.textContent : '') + ' ' + (titleText ? titleText.textContent : '')).toLowerCase();
+                    if (!combined.includes(locFilter)) {
+                        show = false;
+                    }
+                }
+                
+                if (typeFilter) {
+                    const badge = card.querySelector('.badge');
+                    const badgeText = badge ? badge.textContent.toLowerCase().replace(/ /g, '-') : '';
+                    if (!badgeText.includes(typeFilter)) {
+                        show = false;
+                    }
+                }
+                
+                if (!show) {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    }
+});

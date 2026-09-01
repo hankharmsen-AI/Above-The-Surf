@@ -117,6 +117,7 @@ def main():
                     
     update_file('templates/properties.template.html', 'properties.html', properties, all_properties=properties)
     update_file('templates/index.template.html', 'index.html', properties, all_properties=properties)
+    update_file('templates/surf-trips.template.html', 'surf-trips.html', properties, all_properties=properties)
     
     dest_dir = 'destinations'
     if os.path.exists(dest_dir):
