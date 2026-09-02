@@ -81,9 +81,9 @@
             <div class="section-header" style="text-align: center; margin-bottom: 20px;">
                 <h2>Global Surf Properties</h2>
                 <p style="color: #cbd5e1;">Explore our exclusive listings across North & Central America</p>
-                <div style="margin: 30px auto 0 auto; display: flex; justify-content: center; gap: 0; background: #e2e8f0; border-radius: 60px; padding: 5px; width: max-content; box-shadow: var(--shadow);">
-                    <button class="map-filter active-toggle" data-filter="VACATION RENTAL" style="padding: 12px 36px; border-radius: 60px; border: none; font-weight: 800; font-size: 1.1rem; cursor: pointer; transition: 0.3s; background: var(--primary); color: #0A1929;">Vacation Rentals</button>
-                    <button class="map-filter inactive-toggle" data-filter="FOR SALE" style="padding: 12px 36px; border-radius: 60px; border: none; font-weight: 800; font-size: 1.1rem; cursor: pointer; transition: 0.3s; background: transparent; color: #cbd5e1;">Properties for Sale</button>
+                <div class="map-toggle-container">
+                    <button class="map-filter active-toggle" data-filter="VACATION RENTAL">Vacation Rentals</button>
+                    <button class="map-filter inactive-toggle" data-filter="FOR SALE">Properties for Sale</button>
                 </div>
             </div>
             <div id="map" style="height: 500px; width: 100%; border-radius: var(--radius); box-shadow: var(--shadow-lg); z-index: 1;"></div>
@@ -167,11 +167,13 @@
             document.querySelectorAll(".map-filter").forEach(btn => {
                 btn.addEventListener("click", function() {
                     document.querySelectorAll(".map-filter").forEach(b => {
-                        b.style.background = "transparent";
-                        b.style.color = "#cbd5e1";
+                        b.classList.remove("active-toggle");
+                        b.classList.add("inactive-toggle");
+                        b.style.background = '';
+                        b.style.color = '';
                     });
-                    this.style.background = "var(--primary)";
-                    this.style.color = "#fff";
+                    this.classList.remove("inactive-toggle");
+                    this.classList.add("active-toggle");
                     renderMarkers(this.getAttribute("data-filter"));
                 });
             });

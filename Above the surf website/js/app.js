@@ -39,14 +39,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 mapFilters.forEach(b => {
                     b.classList.remove('active-toggle');
                     b.classList.add('inactive-toggle');
-                    b.style.background = 'transparent';
-                    b.style.color = '#cbd5e1';
+                    b.style.background = '';
+                    b.style.color = '';
                 });
                 
                 this.classList.remove('inactive-toggle');
                 this.classList.add('active-toggle');
-                this.style.background = 'var(--primary)';
-                this.style.color = '#0A1929';
             });
         });
     }
