@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Above the Surf | Premium Surf Real Estate</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <meta name="description" content="Browse premium surf real estate worldwide â beachfront villas, turnkey homes, and prime coastal land.">
+    
+    <!-- Google Fonts: Montserrat & Work Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Netlify Identity -->
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <a href="#" class="nav-logo">
+                <img src="Pictures/logo_transparent.png" alt="Above the Surf Logo" style="height: 80px; width: auto; ">
+            </a>
+            <ul class="nav-links">
+                <li><a href="properties.html">Properties</a></li>
+                <li><a href="destinations.html">Destinations</a></li>
+                <li><a href="surf-trips.html">Surf Trips</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="properties.html" class="btn-primary" style="padding: 12px 24px; font-weight: 800;">Find Your Paradise</a></li>
+            </ul>
+            <div class="hamburger">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero" id="home">
+                        <div id="video-container" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; overflow: hidden; background: #000;">
+            <video id="bg-video-1" src="Surf videos/13007362_1280_720_25fps.mp4" autoplay muted loop playsinline class="hero-video" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 1; transition: opacity 1s ease-in-out;">
+                <source src="Surf videos/13007362_1280_720_25fps.mp4" type="video/mp4">
+            </video>
+            <video id="bg-video-2" muted loop playsinline class="hero-video" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;">
+            </video>
+        </div>
+        <div class="hero-overlay" style="z-index: 2;"></div>
+        <div class="hero-content" style="z-index: 3;">
+            <h1>Find Your Dream Surf Property</h1>
+            <p>Exclusive access to the world's best waves. Beachfront villas, turnkey homes, and prime coastal land across the globe.</p>
+            
+            <!-- Search Bar -->
+            <div class="search-bar">
+                <div class="search-input">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Search by location (e.g. Costa Rica, Hawaii)...">
+                </div>
+                <div class="search-select">
+                    <select>
+                        <option value="">Property Type</option>
+                        <option value="vacation-rental">Vacation Rental</option>
+                        <option value="for-sale">Properties for Sale</option>
+                    </select>
+                </div>
+                <button id="searchBtn" class="btn-search">Search</button>
+                
+            </div>
+        </div>
+    </header>
+
+    
+    <section class="section" style="padding: 40px 0 20px; ">
+        <div class="container">
+            <div class="section-header" style="text-align: center; margin-bottom: 20px;">
+                <h2>Global Surf Properties</h2>
+                <p style="color: #cbd5e1;">Explore our exclusive listings across North & Central America</p>
+                <div class="map-toggle-container">
+                    <button class="map-filter active-toggle" data-filter="VACATION RENTAL">Vacation Rentals</button>
+                    <button class="map-filter inactive-toggle" data-filter="FOR SALE">Properties for Sale</button>
+                </div>
+            </div>
+            <div id="map" style="height: 500px; width: 100%; border-radius: var(--radius); box-shadow: var(--shadow-lg); z-index: 1;"></div>
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var bounds = [[-85, -180], [85, 180]];
+            var map = L.map("map", {
+                maxBounds: bounds,
+                maxBoundsViscosity: 1.0,
+                minZoom: 3
+            }).setView([23.0, -100.0], 3);
+            L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}", {
+                attribution: "Tiles &copy; Esri",
+                maxZoom: 19,
+                noWrap: true,
+                bounds: bounds
+            }).addTo(map);
+
+            var properties = <!-- CMS_MAP_DATA -->;
+            var markers = [];
+
+            var customIcon = L.icon({
+                iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
+                iconRetinaUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
+                shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+                iconSize: [25, 41],
+                iconAnchor: [12, 41],
+                popupAnchor: [1, -34],
+                shadowSize: [41, 41]
+            });
+
+            function renderMarkers(filter) {
+                markers.forEach(m => map.removeLayer(m));
+                markers = [];
+
+                properties.forEach(p => {
+                    if (p.badge === filter) {
+                        var m = L.marker([p.lat, p.lng], {icon: customIcon}).addTo(map);
+                        
+                        var popupContent = `
+                            <div style="text-align: center; width: 220px;">
+                                <a href="${p.url}" style="display: block; text-decoration: none;">
+                                    <div style="height: 120px; overflow: hidden; border-radius: 6px; margin-bottom: 10px;">
+                                        <img src="${p.image}" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+                                    </div>
+                                </a>
+                                <strong style="font-family: var(--font-heading); font-size: 1.2rem; color: var(--primary);">${p.price}</strong><br>
+                                <a href="${p.url}" style="display: block; font-size: 0.95rem; color: #334155; text-decoration: none; font-weight: 700; margin-top: 6px; line-height: 1.3; transition: color 0.2s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='#334155'">${p.title}</a>
+                            </div>
+                        `;
+                        m.bindPopup(popupContent);
+                        
+                        m.on('mouseover', function (e) {
+                            this.openPopup();
+                        });
+                        
+                        markers.push(m);
+                    }
+                });
+
+                // Also toggle the grids below
+                var salesGrid = document.getElementById("properties-sales");
+                var rentalsGrid = document.getElementById("properties-rentals");
+                if(salesGrid && rentalsGrid) {
+                    if(filter === "FOR SALE") {
+                        salesGrid.style.display = "block";
+                        rentalsGrid.style.display = "none";
+                    } else {
+                        salesGrid.style.display = "none";
+                        rentalsGrid.style.display = "block";
+                    }
+                }
+            }
+
+            // Init default
+            renderMarkers("VACATION RENTAL");
+
+            document.querySelectorAll(".map-filter").forEach(btn => {
+                btn.addEventListener("click", function() {
+                    document.querySelectorAll(".map-filter").forEach(b => {
+                        b.classList.remove("active-toggle");
+                        b.classList.add("inactive-toggle");
+                        b.style.background = '';
+                        b.style.color = '';
+                    });
+                    this.classList.remove("inactive-toggle");
+                    this.classList.add("active-toggle");
+                    renderMarkers(this.getAttribute("data-filter"));
+                });
+            });
+        });
+    </script>
+
+
+      <!-- Featured Properties -->
+    <section class="section bg-coastal" id="properties-sales" style="display: none;">
+        <div class="container">
+            <div class="section-header">
+                <h2>Properties for Sale</h2>
+                <p>Discover our hand-picked selection of premium coastal real estate for sale.</p>
+            </div>
+            
+            <div class="property-grid">
+                <!-- CMS_SALES_START -->
+                <!-- CMS_SALES_END -->
+            </div>
+            
+            <div class="text-center mt-40">
+                <a href="properties.html#sales" class="btn-outline" style="color: #ffffff; border-color: #ffffff;">View All Sales</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section bg-coastal" id="properties-rentals" style="display: none;">
+        <div class="container">
+            <div class="section-header">
+                <h2>Vacation Rentals</h2>
+                <p>Experience the world's best waves from the comfort of our premium vacation rentals.</p>
+            </div>
+            
+            <div class="property-grid">
+                <!-- CMS_RENTALS_START -->
+                <!-- CMS_RENTALS_END -->
+            </div>
+            
+            <div class="text-center mt-40">
+                <a href="properties.html#rentals" class="btn-outline" style="color: #ffffff; border-color: #ffffff;">View All Rentals</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Destinations Section -->
+    <section class="section" id="destinations">
+        <div class="container">
+            <div class="section-header center">
+                <h2>Top Surf Destinations</h2>
+                <p>Invest in locations with world-class waves and growing markets.</p>
+            </div>
+            
+                        <div class="destinations-grid">
+                <!-- Destination 1 -->
+                <div class="destination-card" onclick="window.location.href='destinations/united-states.html';" style="cursor: pointer;">                    <img src="https://bookingenginecdn.hostaway.com/listing/39200-104834-MdIyHvVVvAGqvtPrErX8OGn0Moo5UnvkMTUOphfMXQA-62474c9f8f12a?width=1920&quality=70&format=webp&v=2" alt="United States" style="width: 100%; height: 100%; object-fit: cover;">
+                    <div class="destination-overlay">
+                        <h3>United States</h3>
+                        <p>12 Properties</p>
+                    </div>
+                </div>
+                
+                <!-- Destination 2 -->
+                <div class="destination-card" onclick="window.location.href='destinations/mexico.html';" style="cursor: pointer;">                    <img src="Pictures/IMG_8726.jpeg" alt="Mexico" style="width: 100%; height: 100%; object-fit: cover;">
+                    <div class="destination-overlay">
+                        <h3>Mexico</h3>
+                        <p>8 Properties</p>
+                    </div>
+                </div>
+                
+                <!-- Destination 3 -->
+                <div class="destination-card" onclick="window.location.href='destinations/costa-rica.html';" style="cursor: pointer;">                    <img src="Pictures/IMG_8709.jpeg" alt="Costa Rica" style="width: 100%; height: 100%; object-fit: cover;">
+                    <div class="destination-overlay">
+                        <h3>Costa Rica</h3>
+                        <p>15 Properties</p>
+                    </div>
+                </div>
+                
+                <!-- Destination 4 -->
+                <div class="destination-card" onclick="window.location.href='destinations/nicaragua.html';" style="cursor: pointer;">                    <img src="Pictures/IMG_9097.jpeg" alt="Nicaragua" style="width: 100%; height: 100%; object-fit: cover;">
+                    <div class="destination-overlay">
+                        <h3>Nicaragua</h3>
+                        <p>6 Properties</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section bg-coastal" id="about">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-text">
+                    <h2>Expertise in Surf Real Estate</h2>
+                    <p>At Above the Surf, we specialize in uniting passionate surfers and investors with the world's most spectacular coastal properties. Whether you are looking for a turnkey beachfront villa, a thriving boutique surf resort, or a prime plot of land in an emerging market, our expertise ensures a seamless experience.</p>
+                    <p>We understand what makes a surf property valuableâfrom wave consistency and wind orientation to local regulations and community growth. Let us guide you to your perfect slice of paradise.</p>
+                    <ul class="about-features">
+                        <li><i class="fas fa-check-circle"></i> Global Network of Surf Destinations</li>
+                        <li><i class="fas fa-check-circle"></i> Premium Coastal Vacation Rentals</li>
+                        <li><i class="fas fa-check-circle"></i> Curated Surf Experiences</li>
+                    </ul>
+                    <a href="contact.html" class="btn-primary mt-20">Get in Touch</a>
+                </div>
+                <div class="about-image">                    <img src="https://bookingenginecdn.hostaway.com/listing/39200-104833-PEI6QJpmSV62dYYgE--h-i7BMz5Hg3fdgY0o1nEOYZfo-6a274c1e17eb5?width=1920&quality=70&format=webp&v=2" alt="About Us" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="section" id="contact">
+        <div class="container">
+            <div class="contact-card">
+                <div class="contact-info">
+                    <h2>Ready to find your perfect wave?</h2>
+                    <p>Contact us today to start your property search or inquire about listing your home with Above the Surf.</p>
+                    
+                    <div class="info-item">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <h4>Email Us</h4>
+                            <p>harmps@gmail.com</p>
+                        </div>
+                    </div>
+                    
+                    <div class="info-item">
+                        <i class="fas fa-phone-alt"></i>
+                        <div>
+                            <h4>Call / Text Us</h4>
+                            <p>801-918-0907</p>
+                        </div>
+                    </div>
+                    
+                    
+                </div>
+                <div class="contact-form" style="background: var(--bg-card); padding: 40px; border-radius: 12px; box-shadow: var(--shadow-lg);">
+                    <h3 style="color: #ffffff;">Send a Message</h3>
+                    <form action="#" method="POST">
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input type="text" placeholder="Your Name" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" placeholder="your@email.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label>I am interested in</label>
+                            <select>
+                                <option>Buying a Property</option>
+                                <option>Selling my Property</option>
+                                <option>General Inquiry</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Message</label>
+                            <textarea placeholder="How can we help you?" required></textarea>
+                        </div>
+                        <button type="submit" class="btn-primary" style="width: 100%;">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="footer-logo">
+                    <img src="Pictures/logo_transparent.png" alt="Above the Surf Logo" style="height: 70px; width: auto; ">
+                </a>
+                    <p>The premier global platform for buying and selling surf real estate, beachfront homes, and coastal resorts.</p>
+                    
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Properties</h4>
+                    <ul>
+                        <li><a href="#">Beachfront Villas</a></li>
+                        <li><a href="#">Lots & Land</a></li>
+                        <li><a href="#">Condos</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Destinations</h4>
+                    <ul>
+                        <li><a href="destinations/united-states.html">United States</a></li>
+                        <li><a href="destinations/mexico.html">Mexico</a></li>
+                        <li><a href="destinations/costa-rica.html">Costa Rica</a></li>
+                        <li><a href="destinations/nicaragua.html">Nicaragua</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="surf-trips.html">Surf Trips</a></li>
+                <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2026 Above the Surf. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+    <script>
+      if (window.netlifyIdentity) {
+        window.netlifyIdentity.on("init", user => {
+          if (!user) {
+            window.netlifyIdentity.on("login", () => {
+              document.location.href = "/admin/";
+            });
+          }
+        });
+      }
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
