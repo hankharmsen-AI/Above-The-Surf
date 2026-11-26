@@ -17,7 +17,7 @@
     <nav id="navbar" class="scrolled">
         <div class="nav-container">
             <a href="index.html" class="nav-logo">
-                <img src="Pictures/logo_transparent.png" alt="Above the Surf Logo" style="height: 80px; width: auto; ">
+                <img src="Pictures/logo_final.png" alt="Above the Surf Logo" style="height: 80px; width: auto; ">
             </a>
             <ul class="nav-links">
                 <li><a href="properties.html">Properties</a></li>
@@ -37,9 +37,9 @@
         <div class="container">
             <h1>All Surf Properties</h1>
                         <p>Browse our complete catalog of premium coastal real estate.</p>
-            <div class="search-bar" style="max-width: 600px; margin: 30px auto 0; position: relative; z-index: 2;">
-                <input type="text" id="searchInput" placeholder="Search by location (e.g. Costa Rica, Hawaii)..." style="width: 100%; padding: 15px 150px 15px 25px; border-radius: 50px; border: 1px solid var(--border); font-size: 1rem;">
-                <button id="searchBtn" class="btn-search" style="position: absolute; right: 5px; top: 5px; bottom: 5px;">Search</button>
+            <div class="search-bar page-search-bar">
+                <div class="search-input" style="border-right: none;"><i class="fas fa-search"></i><input type="text" id="searchInput" placeholder="Search by location (e.g. Costa Rica, Hawaii)..."></div>
+                <button id="searchBtn" class="btn-search">Search</button>
             </div>
         </div>
     </header>
@@ -47,9 +47,9 @@
     <!-- Properties Grid -->
     <section class="section">
         <div class="container">
-            <div style="margin: 0 auto 50px auto; display: flex; justify-content: center; gap: 0; background: #e2e8f0; border-radius: 60px; padding: 5px; width: max-content; box-shadow: var(--shadow);">
-        <button class="prop-filter active-toggle" data-filter="VACATION RENTAL" style="padding: 12px 36px; border-radius: 60px; border: none; font-weight: 800; font-size: 1.1rem; cursor: pointer; transition: 0.3s; background: var(--primary); color: #0A1929;">Vacation Rentals</button>
-        <button class="prop-filter inactive-toggle" data-filter="FOR SALE" style="padding: 12px 36px; border-radius: 60px; border: none; font-weight: 800; font-size: 1.1rem; cursor: pointer; transition: 0.3s; background: transparent; color: #cbd5e1;">Properties for Sale</button>
+            <div class="map-toggle-container" style="margin: 0 auto 40px auto;">
+        <button class="prop-filter map-filter active-toggle" data-filter="VACATION RENTAL">Vacation Rentals</button>
+        <button class="prop-filter map-filter inactive-toggle" data-filter="FOR SALE">Surf Real Estate</button>
     </div>
 
     <div class="property-grid" id="properties-rentals">
@@ -163,11 +163,11 @@
             document.querySelectorAll(".prop-filter").forEach(btn => {
                 btn.addEventListener("click", function() {
                     document.querySelectorAll(".prop-filter").forEach(b => {
-                        b.style.background = "transparent";
-                        b.style.color = "#cbd5e1";
+                        b.classList.remove("active-toggle"); b.classList.add("inactive-toggle"); b.style.background = "";
+                        b.style.color = "";
                     });
-                    this.style.background = "var(--primary)";
-                    this.style.color = "#fff";
+                    this.classList.remove("inactive-toggle"); this.classList.add("active-toggle"); this.style.background = "";
+                    this.style.color = "";
                     
                     var filter = this.getAttribute("data-filter");
                     if(filter === "FOR SALE") {
@@ -190,7 +190,7 @@
             <div class="footer-grid">
                 <div class="footer-brand">
                     <a href="index.html" class="footer-logo">
-                    <img src="Pictures/logo_transparent.png" alt="Above the Surf Logo" style="height: 70px; width: auto; ">
+                    <img src="Pictures/logo_final.png" alt="Above the Surf Logo" style="height: 70px; width: auto; ">
                 </a>
                     <p>The premier global platform for buying and selling surf real estate, beachfront homes, and coastal resorts.</p>
                     
@@ -199,7 +199,7 @@
                     <h4>Properties</h4>
                     <ul>
                         <li><a href="properties.html">Beachfront Villas</a></li>
-                        <li><a href="properties.html">lots and land</a></li>
+
                         <li><a href="properties.html">Lots & Land</a></li>
                     </ul>
                 </div>
